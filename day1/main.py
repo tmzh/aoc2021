@@ -1,19 +1,17 @@
 lines = [x.strip() for x in open('day1/input.txt').readlines()]
 measures = [int(n) for n in lines]
 
-count = 0
 
-for i, n in enumerate(measures[1:]):
-    if measures[i] < measures[i+1]:
-        count += 1
+def count_increasing(measures):
+    count = 0
+    for i, n in enumerate(measures[1:]):
+        if measures[i] < measures[i+1]:
+            count += 1
+    return count
 
-print("Simple count", count)
+print("Simple count", count_increasing(measures))
 
-rolling_measures = [measures[i] + measures[i+1] + measures[i+2] for i in range(len(measures) - 2)]
-rolling_count = 0
+def roll_up(measures):
+    return [measures[i] + measures[i+1] + measures[i+2] for i in range(len(measures) - 2)]
 
-for i, n in enumerate(rolling_measures[1:]):
-    if rolling_measures[i] < rolling_measures[i+1]:
-        rolling_count += 1
-
-print("Rolling count", rolling_count)
+print("Rolling count", count_increasing(roll_up(measures)))
