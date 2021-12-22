@@ -1,0 +1,11 @@
+tasks:
+  - init: |
+      echo 'Installing python 3.9'
+    command: |
+      pyenv install 3.9.7
+      python -m pip install pytest
+vscode:
+  extensions:
+    - ms-python.python
+    - ms-toolsai.jupyter
+    - vscodevim.vim
