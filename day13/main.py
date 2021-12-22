@@ -14,15 +14,9 @@ def fold_grid(grid, x_fold, y_fold):
     grid2 = {}
     for x, y in grid:
         if x_fold == 0:
-            if y > y_fold:
-                grid2[(x, 2 * y_fold - y)] = grid.get((x, 2 * y_fold - y), 0) | grid[(x, y)]
-            else:
-                grid2[(x, y)] = grid[(x, y)]
+            grid2[(x, min(2 * y_fold - y, y))] = 1
         if y_fold == 0:
-            if x > x_fold:
-                grid2[(2 * x_fold - x, y)] = grid.get((2 * x_fold - x, ), 0) | grid[(x, y)]
-            else:
-                grid2[(x, y)] = grid[(x, y)]
+            grid2[(min(2 * x_fold - x, x), y)] = 1
     return grid2
 
 
@@ -35,8 +29,8 @@ def parse_instruction(instruction):
 
 def plot_grid(grid):
     X, Y = map(max, zip(*grid.keys()))
-    for y in range(Y): 
-        print(*[' #'[(x,y) in grid] for x in range(X)])
+    for y in range(Y + 1): 
+        print(*[' #'[(x,y) in grid] for x in range(X + 1)])
 
 
 def count_dots_1(lines):
