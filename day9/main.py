@@ -1,31 +1,34 @@
 import os
-from itertools import chain, product
 from collections import Counter
+from itertools import chain
 
-def neighbhors(i, j, w, h):
+
+def neighbours(i, j, w, h):
     for x in [-1, 1]:
         if 0 <= (i + x) < h:
             yield [i + x, j]
         if 0 <= (j + x) < w:
-            yield [i, j + x] 
+            yield [i, j + x]
 
-def label_neighbhors(grid, labels, i, j,  label):
+
+def label_neighbors(grid, labels, i, j, label):
     h, w = len(grid), len(grid[0])
-    for m, n in neighbhors(i, j, w, h):
+    for m, n in neighbours(i, j, w, h):
         if grid[m][n] < 9 and labels[m][n] == 0:
             labels[m][n] = label
-            label_neighbhors(grid, labels, m, n, label)
+            label_neighbors(grid, labels, m, n, label)
+
 
 def three_largest_basins(grid):
     label = 0
     h, w = len(grid), len(grid[0])
-    labels = [[0]*w for _ in range(h)]
+    labels = [[0] * w for _ in range(h)]
     for i in range(h):
         for j in range(w):
-            if all([grid[i][j] < grid[m][n] for m, n in neighbhors(i, j, w, h)]):
+            if all([grid[i][j] < grid[m][n] for m, n in neighbours(i, j, w, h)]):
                 label = label + 1
                 labels[i][j] = label
-                label_neighbhors(grid, labels, i, j, label)
+                label_neighbors(grid, labels, i, j, label)
     counts = Counter(chain.from_iterable(labels))
     del counts[0]
     result = 1
@@ -40,7 +43,7 @@ def sum_lowest_points(grid):
     h, w = len(grid), len(grid[0])
     for i, row in enumerate(grid):
         for j, v in enumerate(row):
-            if all([v < grid[m][n] for m, n in neighbhors(i, j, w, h)]):
+            if all([v < grid[m][n] for m, n in neighbours(i, j, w, h)]):
                 s += v + 1
     return s
 
